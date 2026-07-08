@@ -49,7 +49,7 @@ nextflow_process {
                 """
                 input[0] = "${projectDir}/tests/test_resources/runfolder_2_extra_args"
                 input[1] = "${projectDir}/tests/test_resources/ngs2counts-mock"
-                input[2] = "--library-mapping '1=[1+2+4]' --output /test/test_resources/runfolder_2_extra_args"
+                input[2] = "--library-mapping '1=[1+2+4]' --split-by-library"
                 """
             }
         }
@@ -60,4 +60,24 @@ nextflow_process {
         }
 
     }
+
+    test("Assert extra output-dir cause failure") {
+
+        when {
+            process {
+                """
+                input[0] = "${projectDir}/tests/test_resources/runfolder_2_extra_args"
+                input[1] = "${projectDir}/tests/test_resources/ngs2counts-mock"
+                input[2] = "--output-dir foo/bar"
+                """
+            }
+        }
+
+        then {
+            assert process.failed
+            assert process.errorReport.contains("Do not pass --output-dir/-o")
+        }
+
+    }
+
 }

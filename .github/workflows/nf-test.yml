@@ -30,7 +30,7 @@ jobs:
           pip install pdiff
 
       - name: Setup Nextflow latest-stable
-        uses: nf-core/setup-nextflow@v2
+        uses: nf-core/setup-nextflow@v3
         with:
           version: "latest-stable"
 
@@ -42,3 +42,9 @@ jobs:
       - name: Run Tests
         run: |
           nf-test test --ci
+      
+      - name: Save test output for troubleshooting
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          path: "${{ github.workspace}}/.nf-test/tests"

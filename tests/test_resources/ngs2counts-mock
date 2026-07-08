@@ -28,8 +28,8 @@ def run_ngs2counts():
             with open(fname, "w") as f:
                 f.write(f"mock count file {i}\n")
 
-    if len(sys.argv) > 3:
-        extra_args = " ".join(map(str, sys.argv[2:]))
+    if len(sys.argv) > 4:
+        extra_args = " ".join(map(str, sys.argv[4:]))
         print("multiple additional arguments:", extra_args)
 
     metadata = {
